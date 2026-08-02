@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>加页手记摸金导航</title>
+    <link rel="stylesheet" href="./styles.css?v=20260709-editlabels1" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <main class="shell is-home" id="appShell">
+      <section class="left-rail" aria-label="地图目录">
+        <div class="brand">
+          <span class="brand-mark">J</span>
+          <div>
+            <h1>加页手记</h1>
+            <p>厄运之女（困难）摸金导航</p>
+          </div>
+        </div>
+
+        <div class="toolbar" aria-label="地图筛选">
+          <button class="chip is-active" data-filter="all">全部</button>
+          <button class="chip" data-filter="一字">一字</button>
+          <button class="chip" data-filter="T门">梯门</button>
+          <button class="chip" data-filter="拐角">拐角</button>
+          <button class="chip" data-filter="特殊">特殊</button>
+        </div>
+
+        <div class="home-prompt">
+          <span>先选门型</span>
+          <strong>进入后再选具体地图</strong>
+        </div>
+
+        <div class="map-list" id="mapList"></div>
+
+        <footer class="credits">
+          <span>地图：@展十（超自然行动组）</span>
+          <span>封面：小红书 @風.</span>
+          <span>复刻与导航面板：本地自用版</span>
+        </footer>
+      </section>
+
+      <section class="map-chooser" aria-label="选择具体地图">
+        <header class="chooser-head">
+          <button class="text-btn" id="backToCategoriesBtn" type="button">返回门型</button>
+          <div>
+            <p class="eyebrow" id="chooserType">选择地图</p>
+            <h2 id="chooserTitle">上1字</h2>
+          </div>
+        </header>
+
+        <div class="choice-grid" id="mapChoiceList"></div>
+      </section>
+
+      <section class="stage" aria-label="地图查看器">
+        <header class="stage-head">
+          <div>
+            <p class="eyebrow" id="mapType">地图</p>
+            <h2 id="mapTitle">上1字</h2>
+          </div>
+
+          <div class="head-actions">
+            <button class="text-btn" id="backHomeBtn" type="button">选门型</button>
+            <button class="icon-btn" id="prevMapBtn" type="button" title="上一张地图" aria-label="上一张地图">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button class="icon-btn" id="nextMapBtn" type="button" title="下一张地图" aria-label="下一张地图">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            <button class="icon-btn" id="fitBtn" type="button" title="切换适配方式" aria-label="切换适配方式">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="map-frame" id="mapFrame">
+          <img id="mapImage" alt="地图" />
+          <span class="zoom-badge" id="zoomBadge">100%</span>
+        </div>
+
+        <div class="map-strip" id="mapStrip" aria-label="同门型地图"></div>
+      </section>
+
+      <aside class="navigator" aria-label="半自动语音导航">
+        <div class="panel-title">
+          <div>
+            <p class="eyebrow">route navigator</p>
+            <h2>摸金导航器</h2>
+          </div>
+          <span class="status-dot" id="voiceStatus" title="语音状态"></span>
+        </div>
+
+        <div class="route-picker">
+          <label for="routeSelect">门型</label>
+          <select id="routeSelect"></select>
+          <button id="addRouteBtn" type="button">添加路线</button>
+        </div>
+
+        <div class="current-step">
+          <span id="stepIndex">01</span>
+          <div class="step-copy">
+            <small id="routeMeta">步骤 1/1</small>
+            <p id="stepText">确认当前门型和地图编号，先别急着跑。</p>
+          </div>
+        </div>
+
+        <div class="route-legend" aria-label="地图图例">
+          <span><i class="legend-red"></i>红线主路</span>
+          <span><i class="legend-room"></i>功能房</span>
+          <span><i class="legend-hall"></i>走廊</span>
+          <span><i class="legend-stair"></i>换楼层</span>
+        </div>
+
+        <div class="control-grid">
+          <button class="ghost-btn prev-action" id="prevStepBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            上一条
+          </button>
+          <button class="primary-btn next-action" id="nextStepBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            下一条
+          </button>
+          <button class="ghost-btn replay-action" id="speakBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            重播当前
+          </button>
+          <button class="ghost-btn listen-action" id="voiceControlBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+            语音监听
+          </button>
+          <button class="ghost-btn hidden-control" id="autoBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg>
+            自动
+          </button>
+        </div>
+
+        <p class="listen-text" id="listenText">进入地图后会尝试自动开启语音监听；说 OK、下一次、下一条、继续都能跳转。</p>
+
+        <label class="voice-field">
+          <span>播报声音</span>
+          <select id="voiceSelect">
+            <option value="">自动选择中文声音</option>
+          </select>
+        </label>
+
+        <label class="range-field">
+          <span>连播间隔</span>
+          <output id="delayOut">5 秒</output>
+          <input id="delayRange" type="range" min="3" max="12" value="5" />
+        </label>
+
+        <div class="steps" id="steps"></div>
+
+        <label class="note-box full-route-box">
+          <span>本图全部指令</span>
+          <textarea id="fullRouteText" rows="9" spellcheck="false"></textarea>
+        </label>
+
+        <label class="note-box custom-note-box">
+          <span>补充口令</span>
+          <textarea id="customNotes" rows="5" spellcheck="false"></textarea>
+        </label>
+
+        <button class="save-btn" id="saveNotesBtn" type="button">保存全部指令</button>
+      </aside>
+    </main>
+
+    <script src="./app.js?v=20260709-editlabels1"></script>
+  </body>
+</html>
